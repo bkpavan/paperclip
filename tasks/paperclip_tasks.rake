@@ -1,7 +1,11 @@
 def obtain_class
   class_name = ENV['CLASS'] || ENV['class']
   raise "Must specify CLASS" unless class_name
-  @klass = Object.const_get(class_name)
+  @klass = Object
+  class_name.split("::").each do |ns|
+    @klass = @klass.const_get(ns)
+  end
+  @klass
 end
 
 def obtain_attachments
